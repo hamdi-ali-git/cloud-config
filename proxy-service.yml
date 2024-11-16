@@ -1,0 +1,28 @@
+server:
+  port: 8080 # Port for the API Gateway
+
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: user-service-route
+          uri: lb://user-service # Load-balanced URI via Eureka
+          predicates:
+            - Path=/users/**
+        - id: order-service-route
+          uri: lb://order-service # Load-balanced URI via Eureka
+          predicates:
+            - Path=/orders/**
+    discovery:
+      locator:
+        enabled: true # Enable service discovery for dynamic routing
+    loadbalancer:
+      retry:
+        enabled: true # Enable retries for failing instances
+  application:
+    name: api-gateway
+
+eureka:
+  client:
+    fetch-registry: true # Fetch the service registry from Eureka
+    register-with-eureka: true # Register API Gateway with Eureka

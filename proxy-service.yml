@@ -1,5 +1,5 @@
 server:
-  port: 8080 # Port for the API Gateway
+  port: 8080
 
 spring:
   application:
@@ -8,17 +8,10 @@ spring:
     gateway:
       routes:
         - id: USER-SERVICE
-          uri: http://localhost:8081
+          uri: http://localhost:8081 # Point directly to the user-service
           predicates:
-            - Path=/api/users/*
-      discovery:
-        locator:
-          enabled: true # Enable dynamic routing based on Eureka discovery
-        lower-case-service-id: true # Ensure service IDs are lowercase for routing
-    loadbalancer:
-      retry:
-        enabled: true # Enable retries for failing instances
+            - Path=/api/users/**
   eureka:
     client:
       service-url:
-        defaultZone: http://localhost:8761/eureka/ # Eureka Server URL
+        defaultZone: http://localhost:8761/eureka/
